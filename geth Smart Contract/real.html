@@ -1,0 +1,300 @@
+<!doctype html>
+  <html>
+    <head>
+      <meta charset="UTF-8">
+      <title>Ajou BlockTel</title>
+    </head>
+	
+    <body>
+	
+      <header>
+        <img src="ajou.PNG">
+      </header>
+      <section>
+        <img src="back.jpg">
+      </section>
+	  
+	  
+	  
+	  <footer>
+
+		<script type="text/javascript" src="./lib/bignumber.min.js"></script>
+		<script type="text/javascript" src="./lib/web3-light.js"></script>
+		<div>
+		<button class="btn" id="btn" onclick = "checkIn()" type="submit" style="background-color:transparent; margin-left:3px;float:left;">
+			<img class="btn-img" src="checkin.PNG" style="width:100px;height:30;">		  
+		</button>
+		<h2 align="center" ><span id="clock1" > <br></span></h2>
+	</div>
+	<div>
+		<button class="btn" id="btn" onclick = "checkOut()" type="submit" style="background-color:transparent;float:left;">
+			<img class="btn-img" src="checkout.PNG" style="width:125px;height:42;">
+		</button>
+		<h2 align="center" style="margin-right:23px"><span id = "clock2"> <br></span></h2>
+	</div>
+		<button class="btn" id="btn" onclick = "bill()" type="submit" style="background-color:transparent;float:left;">
+			<img class="btn-img" src="bill.PNG" style="width:40px;height:42;">
+        </button><br><br><br>
+		<div>
+			<textarea id="messageTextArea" rows="10" cols="50"></textarea>
+		</div>
+		<div>
+			계정: <input type="text" id="account" value="0x7b58823aac640362b84ab364112e41ed524dfd5f">
+			패스워드: <input type="password" id="pass" value="123456">
+		</div>
+		<script type="text/javascript">
+		
+	     var Web3 = require('web3');
+		 var web3 = new Web3();
+		 web3.setProvider(new web3.providers.HttpProvider("http://localhost:8545"));
+         var vc = web3.eth.contract([
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "count",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"name": "display",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "dsp",
+				"type": "string"
+			}
+		],
+		"name": "DisplaySet",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "str",
+				"type": "string"
+			}
+		],
+		"name": "checkOut",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getIn",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getOut",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "number",
+				"type": "uint8"
+			}
+		],
+		"name": "DisplayGet",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "str",
+				"type": "string"
+			}
+		],
+		"name": "checkIn",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]).at("0x7920b7c09a84048cd55409cd3ed41ef97fcbbf9b");
+
+        var webSocket = new WebSocket("ws://192.168.30.208:8000");
+        var messageTextArea = document.getElementById("messageTextArea");
+        var msg;
+		var acc;  //접속계좌
+		var intime;
+		var outtime;
+		var pay;  // 총 가격
+		var count =0;		
+        //웹 소켓이 연결되었을 때 호출되는 이벤트
+        webSocket.onopen = function(message){
+            messageTextArea.value += "Welcome to BlockTel!\n";
+        };
+        //웹 소켓이 닫혔을 때 호출되는 이벤트
+        webSocket.onclose = function(message){
+            messageTextArea.value += "Server Disconnect...\n";
+        };
+        //웹 소켓이 에러가 났을 때 호출되는 이벤트
+        webSocket.onerror = function(message){
+            messageTextArea.value += "error...\n";
+        };
+        //웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
+        webSocket.onmessage = function(message){
+            //messageTextArea.value += message.data+"\n";
+            msg = message.data;
+        };
+        function disconnect(){
+            webSocket.close();
+        }
+
+
+		function checkIn() {
+        var now = new Date();
+        var s = now.getFullYear()+". " + (now.getMonth()+1)+". "+ now.getDate()+"  "+
+                now.getHours()+" : " + now.getMinutes()+" : "+now.getSeconds();
+        document.getElementById("clock1").innerHTML=s;
+            var t = now.getDate() *24*3600 + now.getHours() * 3600 + now.getMinutes()*60 + now.getSeconds();
+			intime =t;
+            var account = document.getElementById("account").value;
+			acc = account;
+            web3.eth.defaultAccount = account;
+			messageTextArea.value += "입장 : " + s+"\n";
+            if (web3.personal.unlockAccount(account, document.getElementById('pass').value)) {
+               vc.checkIn(s, { from: account, gas: 2000000 }, function (err, result) { if (!err) alert("트랜잭션이 성공적으로 전송되었습니다.|n" + result) });
+            } else {
+               alert("트랜잭션 생성 실패.");
+            }
+		    webSocket.send("checkin"+";"+t);
+      }
+
+      function checkOut() {
+        var now = new Date();
+        var s = now.getFullYear()+". " + (now.getMonth()+1)+". "+ now.getDate()+"  "+
+                now.getHours()+" : " + now.getMinutes()+" : "+now.getSeconds();
+        document.getElementById("clock2").innerHTML=s;
+            var t = now.getDate() *24*3600 + now.getHours() * 3600 + now.getMinutes()*60 + now.getSeconds();
+			outtime =t;
+			var account = document.getElementById("account").value;
+            web3.eth.defaultAccount = account;
+			messageTextArea.value += "퇴장 : " + s+"\n";
+            if (web3.personal.unlockAccount(account, document.getElementById('pass').value)){
+               vc.checkOut(s, { from: account, gas: 2000000 }, function (err, result) { if (!err) alert("트랜잭션이 성공적으로 전송되었습니다\n" + result) });
+			
+			} else {
+               alert("트랜잭션 생성 실패.");
+            }
+			
+	
+			
+        webSocket.send("checkout"+";"+t);
+		
+        }
+	  
+	  function bill(){
+	 
+	  //messageTextArea.value +=msg+"\n";
+	  pay = msg;
+	  //var account = document.getElementById("account").value;
+      //web3.eth.defaultAccount = account;
+	  //vc.DisplaySet(pay);
+	    vc.DisplaySet(pay);
+		var cnt = vc.count();
+		var variable= vc.DisplayGet(cnt-1);
+	    //alert(vc.DisplayGet(count-1));
+		//alert(vc.DisplayGet(count));
+		//alert(vc.DisplayGet(count+1);
+	  //vc.DisplaySet(, { from: account, gas: 2000000 }, function (err, result) { if (!err) alert("트랜잭션이 성공적으로 전송되었습니다.\n" + result) });
+	  messageTextArea.value += "==================================================\n";
+	  messageTextArea.value += acc +"\n 사용자 께서 사용하신 금액은 "+pay +"원 입니다."
+		alert(acc +" 사용자 께서 사용하신 금액은 "+pay +"원 입니다.");
+	  }
+
+	  </script>
+	
+	</footer>
+    </body>
+	
+    <style>
+      html, body, p{
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        text-align: center;
+        height: 100px;
+      }
+      header p { font-size: 15px; }
+      header div{
+        width: 80%;
+        margin-left: 10%;
+      }
+      section{
+        margin: 0;
+        padding: 0;
+      }
+      section img {
+        width: 100%;
+        height: 400px;
+      }
+      footer {
+        margin: 0;
+        padding: 0;
+        height: 500px;
+      }
+      .title { font-size: 68px; }
+    </style>
+  </html>
