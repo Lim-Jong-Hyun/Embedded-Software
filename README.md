@@ -22,7 +22,8 @@ This is My Embedded Software Team Project: BLOCKTEL
 
 Developed By Lim Jong Hyun(Leader), Lim Seung Ju, Lee Sang Ho, Lim Sang Min
 
-Screen Shot 
+
+<Screen Shot >
 
 ![1](https://user-images.githubusercontent.com/38081451/46525531-d0fb2580-c8c6-11e8-935b-c3b98c5a73bc.jpg)
 
