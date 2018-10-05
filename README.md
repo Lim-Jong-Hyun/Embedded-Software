@@ -21,3 +21,13 @@ This is My Embedded Software Team Project: BLOCKTEL
 -Solidity for DAPP (Using Remix Web Site)
 
 Developed By Lim Jong Hyun(Leader), Lim Seung Ju, Lee Sang Ho, Lim Sang Min
+
+Screen Shot 
+
+![1](https://user-images.githubusercontent.com/38081451/46525531-d0fb2580-c8c6-11e8-935b-c3b98c5a73bc.jpg)
+
+![2](https://user-images.githubusercontent.com/38081451/46525558-de181480-c8c6-11e8-81d5-7bb41ba0b035.jpg)
+
+![3](https://user-images.githubusercontent.com/38081451/46525559-df494180-c8c6-11e8-8706-af981ca5bea7.jpg)
+
+![4](https://user-images.githubusercontent.com/38081451/46525561-e07a6e80-c8c6-11e8-973d-c31e5b6f49a8.png)
