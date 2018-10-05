@@ -8,14 +8,14 @@ This is My Embedded Software Team Project: BLOCKTEL
 
 *KEYWORD*
 
--BLOCKCAHIN(GETHER)
+-BLOCKCAHIN(GEther)
 
--SENSOR NETWORK (RASPBERRY PI, HOST PC, PORTING, CROSS COMPLIE, Californium)
+-SENSOR NETWORK (RASPBERRY PI, HOST PC, Porting, cross compile, Californium)
 
--WEB3, TCP/UDP, HTTP PROTOCOL 
+-WEB3, TCP/UDP, HTTP, ZigBee, CoAP Protocol
 
--JAVASCRIPT, CSS, HTML for WEBPAGE
+-JAVASCRIPT, CSS, HTML for Web page
 
--JAVA WEB PROGRAMMING, PYTHON for Clinet-Server IoT Sensor Network
+-JAVA WEB PROGRAMMING, PYTHON for IoT Sensor Network
 
 -Solidity for DAPP (Using Remix Web Site)
