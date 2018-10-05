@@ -19,3 +19,5 @@ This is My Embedded Software Team Project: BLOCKTEL
 -JAVA WEB PROGRAMMING, PYTHON for IoT Sensor Network
 
 -Solidity for DAPP (Using Remix Web Site)
+
+Developed By Lim Jong Hyun(Leader), Lim Seung Ju, Lee Sang Ho, Lim Sang Min
