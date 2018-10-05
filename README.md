@@ -12,7 +12,7 @@ This is My Embedded Software Team Project: BLOCKTEL
 
 -SENSOR NETWORK (RASPBERRY PI, HOST PC, Porting, cross compile, Californium)
 
--WEB3, TCP/UDP, HTTP, ZigBee, CoAP Protocol
+-WEB3, TCP/UDP, HTTP, ZigBee, CoAP, OpenWSN Protocol
 
 -JAVASCRIPT, CSS, HTML for Web page
 
